@@ -1,0 +1,14 @@
+[project]
+name = "hack-nu"
+version = "0.1.0"
+description = "Evaluates solutions on a given dataset"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "httpx>=0.27.0",
+    "rich>=13.7.0",
+    "aiohttp>=3.9.0",
+    "fastapi>=0.115.0",
+    "uvicorn>=0.32.0",
+    "ipykernel>=7.2.0"
+]

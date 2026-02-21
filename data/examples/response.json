@@ -1,0 +1,22 @@
+{
+    "diagnoses": [
+        {
+            "rank": 1,
+            "diagnosis": "Острый бронхит",
+            "icd10_code": "J20.9",
+            "explanation": "test explanation"
+        },
+        {
+            "rank": 2,
+            "diagnosis": "test",
+            "icd10_code": "A01",
+            "explanation": "test explanation"
+        },
+        {
+            "rank": 3,
+            "diagnosis": "test",
+            "icd10_code": "A02",
+            "explanation": "test explanation"
+        }
+    ]
+}
