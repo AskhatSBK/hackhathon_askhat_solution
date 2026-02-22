@@ -1,7 +1,7 @@
 [project]
 name = "hack-nu"
 version = "0.1.0"
-description = "Evaluates solutions on a given dataset"
+description = "Qazcode Clinical Diagnosis Assistant"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -10,5 +10,26 @@ dependencies = [
     "aiohttp>=3.9.0",
     "fastapi>=0.115.0",
     "uvicorn>=0.32.0",
-    "ipykernel>=7.2.0"
+    "ipykernel>=7.2.0",
+    "openai>=1.60",
+    "rank-bm25>=0.2",
+    "pymystem3>=0.2",
+    "sentence-transformers>=3.3",
+    "faiss-cpu>=1.9",
+    "numpy>=2.0",
+    "pydantic>=2.0",
+    "python-dotenv>=1.0",
+    "llama-cpp-python>=0.3.0",
 ]
+
+# Force CPU-only PyTorch so Docker doesn't download 2GB of NVIDIA CUDA libs.
+# Remove this section if you want CUDA support (e.g. on a machine with NVIDIA GPU).
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+torchvision = { index = "pytorch-cpu" }
+torchaudio = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true

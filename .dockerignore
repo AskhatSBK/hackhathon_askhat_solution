@@ -15,5 +15,4 @@ build
 .DS_Store
 *.md
 notebooks/
-data/
 PageIndex

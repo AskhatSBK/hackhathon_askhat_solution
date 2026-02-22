@@ -217,3 +217,42 @@ __marimo__/
 # Mac OS
 .DS_Store
 **/.DS_Store
+
+# =============================================================================
+# Qazcode project — large data and built artifacts
+# =============================================================================
+
+# Corpus and dataset (large files, not for VCS)
+data/corpus/
+data/models/
+data/trees/
+corpus/
+
+# Built indexes — large binary files (bm25.pkl 109M, chunks.pkl 86M, faiss.index 63M)
+data/indexes/
+
+# Trees are small (6.8M) and expensive to rebuild (LLM calls) — tracked in git
+# data/trees/
+
+# Evaluation outputs / examples
+data/evals/
+data/examples/
+
+# Jupyter notebooks (not part of MVP)
+notebooks/
+
+# PageIndex library (removed from project)
+PageIndex/
+
+# Non-essential helper scripts
+scripts/download_model.py
+src/mock_server.py
+
+# uv lockfile (uv not installed in this env)
+uv.lock
+
+# Local dev instructions
+CLAUDE_CODE_INSTRUCTIONS.md
+
+# Env secrets (already covered above, belt-and-suspenders)
+.env

@@ -1,0 +1,59 @@
+# ── Qazcode Clinical Diagnosis Assistant — Docker Compose ─────────────────────
+#
+# PROFILES:
+#   (none)       – app only (sentence-transformers on CPU, external LLM API)
+#   local-embed  – add ROCm embedding container (Radeon iGPU)
+#   indexer      – one-shot index build then exit
+#
+# COMMON WORKFLOWS:
+#
+#   1. Build indexes on CPU (slow, no GPU required):
+#        docker compose --profile indexer run --rm indexer
+#
+#   2. Build indexes on Radeon iGPU (fast):
+#        # In .env set: EMBED_BACKEND=api  EMBED_API_BASE=http://embed:8000/v1
+#        docker compose --profile local-embed --profile indexer run --rm indexer
+#        # After building, revert .env: EMBED_BACKEND=sentence-transformers
+#
+#   3. Start the app server (after indexes are built):
+#        docker compose up
+#
+# ──────────────────────────────────────────────────────────────────────────────
+
+services:
+
+  # ── One-shot index builder ───────────────────────────────────────────────────
+  # Profile: indexer
+  # Run once to build BM25 + FAISS indexes, then exits.
+  indexer:
+    profiles: [indexer]
+    build: .
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./data/indexes:/app/data/indexes
+      - ./data/trees:/app/data/trees
+      - ./data/models:/app/data/models   # GGUF model files for llama-cpp
+      - hf-cache:/root/.cache/huggingface
+    env_file:
+      - .env
+    command: uv run python scripts/build_index.py
+
+  # ── Main app server ──────────────────────────────────────────────────────────
+  app:
+    build: .
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./data/indexes:/app/data/indexes
+      - ./data/trees:/app/data/trees
+      - ./data/models:/app/data/models   # GGUF model files for llama-cpp
+      - hf-cache:/root/.cache/huggingface
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+
+volumes:
+  hf-cache:   # shared HuggingFace model cache
