@@ -113,11 +113,11 @@ for i in {1..12}; do
         exit 0
     fi
     echo "  Waiting... (${i}/12)"
-    sleep 5
+    sleep 60
 done
 
 echo ""
-echo "  Server did not respond within 60 s. Check logs:"
+echo "  Server did not respond within Check logs:"
 echo "  docker logs ${CONTAINER}"
 echo ""
 exit 1
